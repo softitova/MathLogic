@@ -6,14 +6,9 @@ import java.util.ArrayList;
 public class ExpressionParser extends Node {
 
     /*public static void main(String[] args) {
-        String r = "a|b";
+        String r = "aa";
 
         Node resRoot = parse(r);
-        System.out.println(resRoot.current.toString());
-        System.out.println(resRoot.leftChild.current.toString());
-        System.out.println(resRoot.rightChild.current.toString());
-        System.out.println(resRoot.leftChild.leftChild.current.toString());
-        System.out.println(resRoot.leftChild.rightChild.current.toString());
 
     }*/
 
@@ -37,31 +32,28 @@ public class ExpressionParser extends Node {
     }
 
     private static Node makeExpr() {
-        Node curRoot = disjuction();
+        Node curRoot = disjunction();
         while (index < expr.length() && expr.charAt(index) == '-') {
             index += 2;
             curRoot = new Node("-", curRoot, makeExpr());
-            tree.add(curRoot);
         }
         return curRoot;
     }
 
-    private static Node disjuction() {
-        Node curRoot = conjuction();
+    private static Node disjunction() {
+        Node curRoot = conjunction();
         while (index < expr.length() && expr.charAt(index) == '|') {
             index++;
-            curRoot = new Node("|", curRoot, conjuction());
-            tree.add(curRoot);
+            curRoot = new Node("|", curRoot, conjunction());
         }
         return curRoot;
     }
 
-    private static Node conjuction() {
+    private static Node conjunction() {
         Node curRoot = negation();
         while (index < expr.length() && expr.charAt(index) == '&') {
             index++;
             curRoot = new Node("&", curRoot, negation());
-            tree.add(curRoot);
         }
         return curRoot;
     }
@@ -69,21 +61,28 @@ public class ExpressionParser extends Node {
     private static Node negation() {
         Node curRoot;
         char sumbol = expr.charAt(index);
-        if (sumbol <= 'z' && sumbol >= 'a') {
-            curRoot = new Node(expr.charAt(index) + "");
+        if (sumbol == '!') {
             index++;
-        } else if (sumbol == '!') {
-            index++;
-            curRoot = new Node(makeExpr().current,new Node("!"), new Node()); // too strange !a|b
+            curRoot = new Node("!", null, negation()); // too strange !a|b
         } else if (sumbol == '(') {
             index++;// ?????? crazy brackets
             curRoot = makeExpr();
             index++;
         } else {
-            curRoot = null;
-            index++;
+            String val = "";
+            char cur = expr.charAt(index);
+            while ((cur<='z' && cur>='a') ||
+                    (cur<='9' && cur>='0')) {
+                val+=cur;
+                index++;
+                if(index==expr.length()){
+                    break;
+                }
+                cur = expr.charAt(index);
+            }
+            curRoot = new Node(val + "");
+           // index++;
         }
-        tree.add(curRoot);
         return curRoot;
     }
 
