@@ -10,7 +10,7 @@ import java.util.StringTokenizer;
 
 
 /**
- * Created by Sofia228 on 15.10.16.
+ *Last Version Created By Sofia
  */
 
 public class Checker {
