@@ -27,13 +27,17 @@ public class ExpressionParser extends Node {
         root = makeExpr();
     }
 
-    public static Node parse(String str) {
-        return (new ExpressionParser(str.toLowerCase()).root);
+     static Node parse(String str) {
+        index = 0;
+        expr = str.toLowerCase();
+        root = makeExpr();
+        return root;
+       // return (new ExpressionParser(str.toLowerCase()).root);
     }
 
     private static Node makeExpr() {
         Node curRoot = disjunction();
-        while (index < expr.length() && expr.charAt(index) == '-') {
+        if (index < expr.length() && expr.charAt(index) == '-') {
             index += 2;
             curRoot = new Node("-", curRoot, makeExpr());
         }
@@ -42,7 +46,7 @@ public class ExpressionParser extends Node {
 
     private static Node disjunction() {
         Node curRoot = conjunction();
-        while (index < expr.length() && expr.charAt(index) == '|') {
+        if (index < expr.length() && expr.charAt(index) == '|') {
             index++;
             curRoot = new Node("|", curRoot, conjunction());
         }
@@ -51,7 +55,7 @@ public class ExpressionParser extends Node {
 
     private static Node conjunction() {
         Node curRoot = negation();
-        while (index < expr.length() && expr.charAt(index) == '&') {
+        if (index < expr.length() && expr.charAt(index) == '&') {
             index++;
             curRoot = new Node("&", curRoot, negation());
         }
@@ -60,28 +64,20 @@ public class ExpressionParser extends Node {
 
     private static Node negation() {
         Node curRoot;
-        char sumbol = expr.charAt(index);
-        if (sumbol == '!') {
+        if (expr.charAt(index) == '!') {
             index++;
             curRoot = new Node("!", null, negation()); // too strange !a|b
-        } else if (sumbol == '(') {
+        } else if (expr.charAt(index) == '(') {
             index++;// ?????? crazy brackets
             curRoot = makeExpr();
             index++;
         } else {
-            String val = "";
-            char cur = expr.charAt(index);
-            while ((cur<='z' && cur>='a') ||
-                    (cur<='9' && cur>='0')) {
-                val+=cur;
+            StringBuilder val = new StringBuilder();
+            while (index < expr.length() && Character.isLetterOrDigit(expr.charAt(index))) {
+                val.append(expr.charAt(index));
                 index++;
-                if(index==expr.length()){
-                    break;
-                }
-                cur = expr.charAt(index);
             }
-            curRoot = new Node(val + "");
-           // index++;
+            curRoot = new Node(val.toString());
         }
         return curRoot;
     }

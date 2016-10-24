@@ -2,6 +2,7 @@
  * Created by macbook on 14.10.16.
  */
 class Node {
+    
     String current = "";
     Node leftChild = null;
     Node rightChild = null;

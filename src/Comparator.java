@@ -8,7 +8,7 @@ import java.util.HashSet;
 public class Comparator {
     public static HashMap<String, Node> roots;
     private static String vars[] = new String[]{"a", "b", "c"};
-
+//    private HashMap<String, String> data = new HashMap<>();
 
     private static boolean containsVar(String s) {
 
@@ -27,16 +27,18 @@ public class Comparator {
                 return false;
             } else {
                 boolean res = true;
-                if (!containsVar(axiomsRoot.leftChild.current)) {
-                    res = compare(curRoot.leftChild, axiomsRoot.leftChild);
-                } else {
+                if (axiomsRoot.leftChild != null) {
+                    if (!containsVar(axiomsRoot.leftChild.current)) {
+                        res = compare(curRoot.leftChild, axiomsRoot.leftChild);
+                    } else {
+                        if (roots.containsKey(axiomsRoot.leftChild.current)) {
+                            if (!simpleCompare(roots.get(axiomsRoot.leftChild.current), curRoot.leftChild)) {
+                                return false;
 
-                    if (roots.containsKey(axiomsRoot.leftChild.current)) {
-                        if (!simpleCompare(roots.get(axiomsRoot.leftChild.current), curRoot.leftChild)) {
-                            return false;
+                            }
                         }
+                        roots.put(axiomsRoot.leftChild.current, curRoot.leftChild);
                     }
-                    roots.put(axiomsRoot.leftChild.current, curRoot.leftChild);
                 }
                 if (!containsVar(axiomsRoot.rightChild.current)) {
 
