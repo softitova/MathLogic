@@ -11,8 +11,8 @@ class ModusPonens {
             System.out.println("Не доказано");
         } else {
             Checker.addToMap(count);
-            System.out.println("M.P. " + Checker.trueLines.get(curRoot.toString()) + ", " +
-                    count );
+            System.out.println("M.P. " + (Checker.trueLines.get(curRoot.toString())+1) + ", " +
+                    (count+1) );
         }
     }
 

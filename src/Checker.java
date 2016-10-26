@@ -10,7 +10,7 @@ import java.util.StringTokenizer;
 
 
 /**
- *Last Version Created By Sofia
+ * Last Version Created By Sofia
  */
 
 public class Checker {
@@ -45,7 +45,7 @@ public class Checker {
                         add(new Pair<>(curRoot.rightChild.toString(), count));
             }
         }
-        if (leftRightPartToMP.containsKey(curRoot.toString())) {   
+        if (leftRightPartToMP.containsKey(curRoot.toString())) {
             ArrayList<Pair<String, Integer>> temp = leftRightPartToMP.get(curRoot.toString());
             for (Pair<String, Integer> p : temp) {
                 trueLines.put(p.getKey(), p.getValue());
@@ -61,7 +61,7 @@ public class Checker {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedReader in = new BufferedReader(new FileReader("good4.in"));
+        BufferedReader in = new BufferedReader(new FileReader("good6.in"));
         String h = in.readLine();
         h = h.replaceAll(" ", "");
         String h1 = "";
@@ -109,7 +109,6 @@ public class Checker {
 //            return;
 //        }
 //        System.out.println("OOPs");
-        System.out.println("end");
     }
 }
 

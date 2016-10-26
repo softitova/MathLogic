@@ -61,22 +61,27 @@ public class Comparator {
 
     private static boolean simpleCompare(Node first, Node second) {
         if ((first.current == null && second.current != null) || (second.current == null && first.current != null)) {
-            return false;
-        }
-        while (first.current != null) {
-            if (!first.current.equals(second.current)) {
-                return false;
-            } else {
-                boolean res = true;
-                if (first.leftChild != null) {
-                    res = simpleCompare(first.leftChild, second.leftChild);
-                }
-                if (first.rightChild != null) {
-                    res &= simpleCompare(first.rightChild, second.rightChild);
-                }
-                return res;
-            }
-        }
-        return true;
+           return false;
+      }
+        return first.toString().equals(second.toString());
     }
+//        if ((first.current == null && second.current != null) || (second.current == null && first.current != null)) {
+//            return false;
+//        }
+//        while (first.current != null) {
+//            if (!first.current.equals(second.current)) {
+//                return false;
+//            } else {
+//                boolean res = true;
+//                if (first.leftChild != null) {
+//                    res = simpleCompare(first.leftChild, second.leftChild);
+//                }
+//                if (first.rightChild != null) {
+//                    res &= simpleCompare(first.rightChild, second.rightChild);
+//                }
+//                return res;
+//            }
+//        }
+//        return true;
+//    }
 }
