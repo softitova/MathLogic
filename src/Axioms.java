@@ -1,3 +1,5 @@
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.HashMap;
 
 /**
@@ -21,11 +23,12 @@ public class Axioms {
         return axiomsArr[i];
     }
 
-    protected static boolean checkAxiom(Node curRoot, int count) {
+    protected static boolean checkAxiom(Node curRoot, int count, PrintStream out) {
         for (int i = 0; i < Checker.axiomsRoots.size(); i++) {
             Comparator.roots = new HashMap<>();
             if (Comparator.compare(curRoot, Checker.axiomsRoots.get(i))) {
-                System.out.println("Сх. акс. " + (i + 1));
+                //System.out.println("Сх. акс. " + (i + 1));
+                out.println("(" + (count + 1) +") " +Checker.proof.get(count) + " (Сх. акс. " + (i + 1)+")");
                 Checker.trueLines.put(curRoot.toString(), count);
                 Checker.addToMap(count);
                 return true;

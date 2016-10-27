@@ -1,9 +1,7 @@
 import javafx.util.Pair;
 
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringTokenizer;
@@ -15,7 +13,7 @@ import java.util.StringTokenizer;
 
 public class Checker {
 
-    private static ArrayList<String> proof = new ArrayList();
+    public static ArrayList<String> proof = new ArrayList();
     public static ArrayList<Node> axiomsRoots = new ArrayList<>();
     private static Node curRoot;
 
@@ -62,8 +60,11 @@ public class Checker {
 
     public static void main(String[] args) throws IOException {
         BufferedReader in = new BufferedReader(new FileReader("good6.in"));
+        PrintStream out = new PrintStream(new File("output.txt"));
         String h = in.readLine();
+
         h = h.replaceAll(" ", "");
+        out.println(h);
         String h1 = "";
         String toProve = "";
         boolean flag = false;
@@ -98,9 +99,11 @@ public class Checker {
         for (String line : proof) {
             curRoot = ExpressionParser.parse(line);
             if (hypotesisMap.containsKey(line)) {
-                System.out.println("Предп. " + (hypotesisMap.get(line) + 1));
-            } else if (!Axioms.checkAxiom(curRoot, count)) {
-                ModusPonens.MP(count, curRoot);
+                out.println("(" + (count + 1) +") " +proof.get(count) + " (Предп. " + (hypotesisMap.get(line) + 1)+")");
+
+                //  System.out.println("Предп. " + (hypotesisMap.get(line) + 1));
+            } else if (!Axioms.checkAxiom(curRoot, count, out)) {
+                ModusPonens.MP(count, curRoot, out);
             }
             count++;
         }
@@ -109,6 +112,7 @@ public class Checker {
 //            return;
 //        }
 //        System.out.println("OOPs");
+        out.close();
     }
 }
 
