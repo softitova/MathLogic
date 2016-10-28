@@ -28,7 +28,7 @@ public class Axioms {
             Comparator.roots = new HashMap<>();
             if (Comparator.compare(curRoot, Checker.axiomsRoots.get(i))) {
                 //System.out.println("Сх. акс. " + (i + 1));
-                out.println("(" + (count + 1) +") " +Checker.proof.get(count) + " (Сх. акс. " + (i + 1)+")");
+                out.println("(" + (count + 2) +") " +Checker.proof.get(count) + " (Сх. акс. " + (i + 1)+")");
                 Checker.trueLines.put(curRoot.toString(), count);
                 Checker.addToMap(count);
                 return true;

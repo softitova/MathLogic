@@ -64,7 +64,7 @@ public class Checker {
         String h = in.readLine();
 
         h = h.replaceAll(" ", "");
-        out.println(h);
+        out.println("("+1+")" + " " +h);
         String h1 = "";
         String toProve = "";
         boolean flag = false;
@@ -99,7 +99,7 @@ public class Checker {
         for (String line : proof) {
             curRoot = ExpressionParser.parse(line);
             if (hypotesisMap.containsKey(line)) {
-                out.println("(" + (count + 1) +") " +proof.get(count) + " (Предп. " + (hypotesisMap.get(line) + 1)+")");
+                out.println("(" + (count + 2) +") " +proof.get(count) + " (Предп. " + (hypotesisMap.get(line) + 1)+")");
 
                 //  System.out.println("Предп. " + (hypotesisMap.get(line) + 1));
             } else if (!Axioms.checkAxiom(curRoot, count, out)) {
