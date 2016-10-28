@@ -2,9 +2,7 @@ import javafx.util.Pair;
 
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.StringTokenizer;
+import java.util.*;
 
 
 /**
@@ -27,7 +25,8 @@ public class Checker {
 
     public static HashMap<String, ArrayList<Pair<String, Integer>>> leftRightPartToMP = new HashMap<>();
     public static HashMap<String, Integer> trueLines = new HashMap<>();
-    public static HashMap<String, Integer> hypotesisMap = new HashMap<>();
+    public static HashMap<String, Integer> assumptionMap = new HashMap<>();
+    public static HashMap<String, String> trueRightLeft = new HashMap<>();
 
 
     public static void addToMap(int count) {
@@ -47,13 +46,13 @@ public class Checker {
             ArrayList<Pair<String, Integer>> temp = leftRightPartToMP.get(curRoot.toString());
             for (Pair<String, Integer> p : temp) {
                 trueLines.put(p.getKey(), p.getValue());
+                trueRightLeft.put(p.getKey().toString(),curRoot.toString());
             }
         }
         if (curRoot.leftChild != null && curRoot.rightChild != null) {
             if (trueLines.containsKey(curRoot.leftChild.toString())) {
-
                 trueLines.put(curRoot.rightChild.toString(), count);
-
+                trueRightLeft.put(curRoot.rightChild.toString(), curRoot.leftChild.toString());
             }
         }
     }
@@ -64,7 +63,7 @@ public class Checker {
         String h = in.readLine();
 
         h = h.replaceAll(" ", "");
-        out.println("("+1+")" + " " +h);
+        out.println(h);
         String h1 = "";
         String toProve = "";
         boolean flag = false;
@@ -83,11 +82,12 @@ public class Checker {
         StringTokenizer st = new StringTokenizer(h1, ",", false);
         for (int j = 0; j < st.countTokens(); j++) {
             String hyp = ExpressionParser.parse(st.nextToken()).toString();
-            hypotesisMap.put(hyp, j);
+            assumptionMap.put(hyp, j);
             trueLines.put(hyp, j);
         }
 
         String s = in.readLine();
+        s.trim();
         s = s.replaceAll(" ", "");
         int count = 0;
         while (s != null) {
@@ -98,20 +98,14 @@ public class Checker {
 
         for (String line : proof) {
             curRoot = ExpressionParser.parse(line);
-            if (hypotesisMap.containsKey(line)) {
-                out.println("(" + (count + 2) +") " +proof.get(count) + " (Предп. " + (hypotesisMap.get(line) + 1)+")");
-
-                //  System.out.println("Предп. " + (hypotesisMap.get(line) + 1));
+            if (assumptionMap.containsKey(line)) {
+                out.println("(" + (count + 1) + ") " + proof.get(count) + " (Предп. " + (assumptionMap.get(line) + 1) + ")");
             } else if (!Axioms.checkAxiom(curRoot, count, out)) {
                 ModusPonens.MP(count, curRoot, out);
             }
             count++;
         }
-//        if(trueLines.containsKey(toProve))  {
-//            System.out.println("correct");
-//            return;
-//        }
-//        System.out.println("OOPs");
+        
         out.close();
     }
 }

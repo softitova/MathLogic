@@ -10,14 +10,15 @@ import java.util.ArrayList;
 class ModusPonens {
     protected static void MP(int count, Node curRoot, PrintStream out) {
         if (!Checker.trueLines.containsKey(curRoot.toString())) {
-           out.println("(" + (count + 2) +") "+Checker.proof.get(count) +"(" +" Не доказано"+")");
-            //System.out.println("Не доказано");
+            out.println("(" + (count + 1) + ") " + Checker.proof.get(count) + "(" + " Не доказано" + ")");
         } else {
             Checker.addToMap(count);
-            //System.out.println("M.P. " + (Checker.trueLines.get(curRoot.toString())+1) + ", " +(count+1) );
-            out.println("(" + (count+2) +") "+Checker.proof.get(count) +" (M.P. " + (Checker.trueLines.get(curRoot.toString())+1) + ", " +
-                    (count+1) + ")");
+            String lp = Checker.trueRightLeft.get(curRoot.toString());
+            Checker.trueLines.put(curRoot.toString(), count);
+            int ind1 = Checker.trueLines.get(lp) + 1;
+            int ind2 = Checker.trueLines.get("(" + lp + ")-(" + curRoot.toString() + ")") + 1;
+            out.println("(" + (count + 1) + ") " + Checker.proof.get(count) + " (M.P. " + ind1 + ", " +
+                    ind2 + ")");
         }
     }
-
 }
