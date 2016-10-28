@@ -82,7 +82,7 @@ public class Checker {
 
         StringTokenizer st = new StringTokenizer(h1, ",", false);
         for (int j = 0; j < st.countTokens(); j++) {
-            String hyp = st.nextToken();
+            String hyp = ExpressionParser.parse(st.nextToken()).toString();
             hypotesisMap.put(hyp, j);
             trueLines.put(hyp, j);
         }
