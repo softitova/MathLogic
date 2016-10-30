@@ -45,7 +45,9 @@ public class Checker {
         if (leftRightPartToMP.containsKey(curRoot.toString())) {
             ArrayList<Pair<String, Integer>> temp = leftRightPartToMP.get(curRoot.toString());
             for (Pair<String, Integer> p : temp) {
-                trueLines.put(p.getKey(), p.getValue());
+                if(!trueLines.containsKey(p.getKey())) {
+                    trueLines.put(p.getKey(), null);
+                } // можно записывать нул как номер чтобы понимать что это только возможно доказано / но что если мы эту строеку уже ранее писали и теперь ее нул никто не перепишет?
                 trueRightLeft.put(p.getKey().toString(),curRoot.toString());
             }
         }
