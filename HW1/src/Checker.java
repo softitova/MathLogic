@@ -69,10 +69,26 @@ public class Checker {
         String h1 = "";
         String toProve = "";
         boolean flag = false;
+        int asCount=0;
         for (int i = 0; i < h.length() - 1; i++) {
             if (!(h.charAt(i) == '|' && h.charAt(i + 1) == '-') && !flag) {
-                h1 += h.charAt(i);
+                if(h.charAt(i)!=',') {
+                    h1 += h.charAt(i);
+                } else {
+                    //i++;
+                    curRoot = ExpressionParser.parse(h1);
+                    assumptionMap.put(curRoot.toString(), asCount);
+                    trueLines.put(curRoot.toString(), null);
+                    addToMap(asCount);
+                    asCount++;
+                    h1="";
+                }
             } else {
+                curRoot = ExpressionParser.parse(h1);
+                assumptionMap.put(curRoot.toString(), asCount);
+                trueLines.put(curRoot.toString(), null);
+                addToMap(asCount);
+                asCount++;
                 if (!flag) {
                     i += 2;
                     flag = true;
@@ -81,12 +97,13 @@ public class Checker {
             }
         }
 
-        StringTokenizer st = new StringTokenizer(h1, ",", false);
-        for (int j = 0; j < st.countTokens(); j++) {
-            String hyp = ExpressionParser.parse(st.nextToken()).toString();
-            assumptionMap.put(hyp, j);
-            trueLines.put(hyp, j);
-        }
+
+//        for (int j = 0; j < st.countTokens(); j++) {
+//            curRoot = ExpressionParser.parse(st.nextToken());
+//            assumptionMap.put(curRoot.toString(), j);
+//            trueLines.put(curRoot.toString(), null);
+//            addToMap(j);
+//        }
 
         String s = in.readLine();
         s.trim();
@@ -100,8 +117,11 @@ public class Checker {
 
         for (String line : proof) {
             curRoot = ExpressionParser.parse(line);
-            if (assumptionMap.containsKey(line)) {
-                out.println("(" + (count + 1) + ") " + proof.get(count) + " (Предп. " + (assumptionMap.get(line) + 1) + ")");
+            if (assumptionMap.containsKey(curRoot.toString())) {
+                out.println("(" + (count + 1) + ") " + line + " (Предп. " + (assumptionMap.get(curRoot.toString()) + 1) + ")");
+//                curRoot = ExpressionParser.parse(proof.get(count));
+//                trueLines.put(curRoot.toString(), count);
+//                addToMap(count);
             } else if (!Axioms.checkAxiom(curRoot, count, out)) {
                 ModusPonens.MP(count, curRoot, out);
             }
